@@ -9,21 +9,20 @@ const jsdom = require("jsdom")
 const { JSDOM } = jsdom
 global.DOMParser = new JSDOM().window.DOMParser
 
-const url =
-  'http://www.cbr.ru/s/newbik';
+const url ='http://www.cbr.ru/s/newbik';
 
 async function zip  () {
-  const archiveFolder = path.resolve(__dirname, 'archive')
-  const archive = path.resolve(archiveFolder, 'archive.zip')
-  const response = await fetch(url);
-  const buffer = await response.buffer();
-  await writeFile(archive, buffer);
-  const zip = new AdmZip(archive)
-  zip.extractAllTo(archiveFolder, true)
-  console.log("Done")
+    const archiveFolder = path.resolve(__dirname, 'archive')
+    const archive = path.resolve(archiveFolder, 'archive.zip')
+    const response = await fetch(url);
+    const buffer = await response.buffer();
+    await writeFile(archive, buffer);
+    const zip = new AdmZip(archive)
+    zip.extractAllTo(archiveFolder, true)
+    console.log("Done")
 }
 
- function parse()  {
+function parse()  {
     var files = fs.readdirSync('.\\archive');
     console.log(".\\archive\\" + files[files.length-2])
 
@@ -67,7 +66,7 @@ function parseXML(xmlString) {
 }
 
 async function main(){
-   await zip()
+await zip()
 parse()
 }
 
