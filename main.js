@@ -1,17 +1,16 @@
-const path = require('path')
-const fetch = require('node-fetch');
-const AdmZip = require('adm-zip')
-const { writeFile } = require('fs').promises;
-const iconv = require('iconv-lite')
-const fs = require('fs');
-
-const jsdom = require("jsdom")
+const path = require('path') //to creating and resoolving path's
+const fetch = require('node-fetch'); //to make http request's (for downliading)
+const AdmZip = require('adm-zip') //to unpacking arshives
+const { writeFile } = require('fs').promises; //file stream
+const iconv = require('iconv-lite') // to decoding xml format to string
+const fs = require('fs'); //file stream
+const jsdom = require("jsdom") //paerser on server
 const { JSDOM } = jsdom
 global.DOMParser = new JSDOM().window.DOMParser
 
 const url ='http://www.cbr.ru/s/newbik';
 
-async function zip  () {
+async function zip() { // unpacking function
     const archiveFolder = path.resolve(__dirname, 'archive')
     const archive = path.resolve(archiveFolder, 'archive.zip')
     const response = await fetch(url);
@@ -19,16 +18,14 @@ async function zip  () {
     await writeFile(archive, buffer);
     const zip = new AdmZip(archive)
     zip.extractAllTo(archiveFolder, true)
-    console.log("Done")
+    console.log("Unpacking completed")
 }
 
-function parse()  {
+function parse()  { //string parser
     var files = fs.readdirSync('.\\archive');
     console.log(".\\archive\\" + files[files.length-2])
-
     fs.readFile(".\\archive\\" + files[files.length - 2], null, (err, data) => {
     if(err){
-
     console.error(err)
     return
     }
@@ -51,7 +48,7 @@ console.log(result)
 })
 }
 
-function parseXML(xmlString) {
+function parseXML(xmlString) {//xml parser to string
     var parser = new DOMParser();
     // Parse a simple Invalid XML source to get namespace of <parsererror>:
     var docError = parser.parseFromString('INVALID', 'text/xml');
